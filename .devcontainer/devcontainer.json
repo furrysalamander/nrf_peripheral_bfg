@@ -1,0 +1,16 @@
+{
+  "name": "nRF Peripheral BFG",
+  "image": "ghcr.io/furrysalamander/nrf_peripheral_bfg-devcontainer:latest",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "nordic-semiconductor.nrf-connect-pack",
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake",
+        "ms-vscode.hexeditor"
+      ]
+    }
+  },
+  "postCreateCommand": "west config build.board seeed_nrf54l15_npm2100/nrf54l15/cpuapp --local && west config build.board-dir . --local"
+}

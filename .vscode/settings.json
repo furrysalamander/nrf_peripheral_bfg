@@ -1,0 +1,32 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "files.associations": {
+    "*.dts": "dts",
+    "*.dtsi": "dts",
+    "*.overlay": "dts",
+    "Kconfig": "kconfig",
+    "Kconfig.*": "kconfig",
+    "*.conf": "properties"
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "C_Cpp.default.compilerPath": "/root/ncs/toolchains/fbf7391cab/opt/zephyr-sdk/gnu/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
+  "C_Cpp.default.intelliSenseMode": "linux-gcc-arm",
+  "cmake.configureOnOpen": false,
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+  "cmake.buildEnvironment": {
+    "ZEPHYR_SDK_INSTALL_DIR": "/root/ncs/toolchains/fbf7391cab/opt/zephyr-sdk",
+    "ZEPHYR_TOOLCHAIN_VARIANT": "zephyr/gnu",
+    "PYTHONHOME": "/root/ncs/toolchains/fbf7391cab/usr/local",
+    "PYTHONPATH": "/root/ncs/toolchains/fbf7391cab/usr/local/lib/python3.12:/root/ncs/toolchains/fbf7391cab/usr/local/lib/python3.12/site-packages",
+    "NRFUTIL_HOME": "/root/ncs/toolchains/fbf7391cab/nrfutil/home"
+  },
+  "[c]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
+  "[dts]": {
+    "editor.tabSize": 2
+  }
+}
