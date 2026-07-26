@@ -107,13 +107,9 @@ int fuel_gauge_init(const struct device *vbat, char *bat_name, size_t n)
         .i0 = AVERAGE_CURRENT,
         .opt_params = NULL,
     };
-    struct nrf_fuel_gauge_runtime_parameters rt_params = {
-        .a = NAN,
-        .b = NAN,
-        .c = NAN,
-        .d = NAN,
-        .discard_positive_deltaz = true,
-    };
+    struct nrf_fuel_gauge_config_parameters rt_params;
+    nrf_fuel_gauge_config_params_default_get(&rt_params);
+    rt_params.discard_positive_deltaz = true;
     int ret;
 
     ret = read_sensors(vbat, &parameters.v0, &parameters.t0);
@@ -128,8 +124,13 @@ int fuel_gauge_init(const struct device *vbat, char *bat_name, size_t n)
         return ret;
     }
 
+    ret = nrf_fuel_gauge_config_params_adjust(&rt_params);
+    if (ret < 0)
+    {
+        return ret;
+    }
+
     ref_time = k_uptime_get();
-    nrf_fuel_gauge_param_adjust(&rt_params);
     strncpy(bat_name, battery_model.name, n);
     err = 0;
 
@@ -151,7 +152,13 @@ int fuel_gauge_update(const struct device *vbat, uint8_t *soc)
 
     delta = (float)k_uptime_delta(&ref_time) / 1000.f;
 
-    *soc = (uint8_t)nrf_fuel_gauge_process(voltage, AVERAGE_CURRENT, temp, delta, NULL);
+    float soc_float;
+    ret = nrf_fuel_gauge_process(voltage, AVERAGE_CURRENT, temp, delta, &soc_float, NULL);
+    if (ret < 0)
+    {
+        return ret;
+    }
+    *soc = (uint8_t)soc_float;
 
     LOG_INF("PMIC Thread sending: V: %.3f, T: %.2f, SoC: %d", (double)voltage, (double)temp, *soc);
 
@@ -187,7 +194,6 @@ int pmic_fg_thread(void)
 
 int pmic_reg_thread(void)
 {
-    int request;
 
     for (;;)
     {
